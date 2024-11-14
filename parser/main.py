@@ -26,14 +26,18 @@ def start():
         driver.get("https://www.avito.ru/rostov-na-donu/kvartiry?context=H4sIAAAAAAAA_wEjANz_YToxOntzOjg6ImZyb21QYWdlIjtzOjc6ImNhdGFsb2ciO312FITcIwAAAA&district=349-350-351-353-354-355-356-357")
         time.sleep(5)
 
+        with open('houses.txt', 'w') as file:
+            file.write('ID\tTitle\tPlace\tPrice\n')
+
         scroll()
         house_id = parse_data(house_id)
 
         while True:
-            next_button = driver.find_element(By.CSS_SELECTOR, 'a.styles-module-item-QkAj5.styles-module-item_size_s-hLYd4.styles-module-item_link-rcqQ0')
+            next_buttons = driver.find_elements(By.CSS_SELECTOR, 'a.styles-module-item-QkAj5.styles-module-item_arrow-gwJ04.styles-module-item_size_s-hLYd4.styles-module-item_link-rcqQ0')
 
-            if next_button:
-                next_button.click()
+            if next_buttons:
+                next_button = next_buttons[-1]
+                driver.execute_script("arguments[0].click();", next_button)
                 time.sleep(5)
                 scroll()
                 house_id = parse_data(house_id)
@@ -70,13 +74,13 @@ def parse_data(house_id):
             continue
 
         price = parse_string(price, 'price')
-
         all_houses.append((house_id, title, place, price))
+
         house_id += 1
 
     with open('houses.txt', 'a', encoding='utf-8') as file:
         for house in all_houses:
-            file.write(f'{house[0]}\tTitle: {house[1]}\tPlace: {house[2]}\tPrice: {house[3]}\n')
+            file.write(f'{house[0]}\t{house[1]}\t{house[2]}\t{house[3]}\n')
             print(f'{house[0]}\tTitle: {house[1]}\tPlace: {house[2]}\tPrice: {house[3]}\n')
 
     return house_id
