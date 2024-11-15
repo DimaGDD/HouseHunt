@@ -1,10 +1,10 @@
 import undetected_chromedriver as uc
-from bs4 import BeautifulSoup
-from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
-from selenium.webdriver.common.by import By
 import time
 import unicodedata
 import re
+from bs4 import BeautifulSoup
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+from selenium.webdriver.common.by import By
 
 options = uc.ChromeOptions()
 options.add_argument('--disable-gpu')
@@ -28,7 +28,7 @@ def start():
 
         with open('houses.txt', 'w') as file:
             file.write('ID\tTitle\tPlace\tPrice\n')
-
+            
         scroll()
         house_id = parse_data(house_id)
 
@@ -62,18 +62,19 @@ def parse_data(house_id):
         title_elem = house.select_one('h3')
         title = unicodedata.normalize("NFKD", title_elem.text) if title_elem else "N/A"
         title = parse_string(title, 'title')
+        if title == None: continue
 
         place_elem = house.select_one('p.styles-module-root-s4tZ2.styles-module-size_s-nEvE8.styles-module-size_s_compensated-wyNaE.styles-module-size_s-PDQal.styles-module-ellipsis-A5gkK.styles-module-ellipsis_oneLine-xwEfT.stylesMarningNormal-module-root-_xKyG.stylesMarningNormal-module-paragraph-s-HX94M.styles-module-root_top-f1wIA.styles-module-margin-top_0-j226g')
         place = unicodedata.normalize("NFKD", place_elem.text) if place_elem else "N/A"
         place = parse_string(place, 'place')
+        if place == None: continue
 
         price_elem = house.select_one('strong')
         price = unicodedata.normalize("NFKD", price_elem.text) if price_elem else "N/A"
-
-        if 'месяц' in price:
-            continue
-
+        if 'месяц' in price: continue
         price = parse_string(price, 'price')
+        if price == None: continue
+
         all_houses.append((house_id, title, place, price))
 
         house_id += 1
