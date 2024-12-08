@@ -5,6 +5,7 @@ import re
 from bs4 import BeautifulSoup
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.webdriver.common.by import By
+import csv
 
 options = uc.ChromeOptions()
 options.add_argument('--disable-gpu')
@@ -26,8 +27,9 @@ def start():
         driver.get("https://www.avito.ru/rostov-na-donu/kvartiry?context=H4sIAAAAAAAA_wEjANz_YToxOntzOjg6ImZyb21QYWdlIjtzOjc6ImNhdGFsb2ciO312FITcIwAAAA&district=349-350-351-353-354-355-356-357")
         time.sleep(5)
 
-        with open('houses.txt', 'w') as file:
-            file.write('ID\tTitle\tPlace\tPrice\n')
+        with open('houses.csv', 'w', newline='', encoding='utf-8') as file:
+            writer = csv.writer(file)
+            writer.writerow(['Room_number', 'Squares', 'Living_squares', 'Floor', 'Place', 'Price'])
             
         scroll()
         house_id = parse_data(house_id)
@@ -55,34 +57,120 @@ def parse_data(house_id):
     html = driver.page_source
     soup = BeautifulSoup(html, "html.parser")
 
-    houses = soup.select('div.iva-item-root-Se7z4')
+    houses = soup.select('a.iva-item-sliderLink-Fvfau')
     all_houses = []
 
     for house in houses:
-        title_elem = house.select_one('h3')
-        title = unicodedata.normalize("NFKD", title_elem.text) if title_elem else "N/A"
-        title = parse_string(title, 'title')
-        if title == None: continue
+        try:
+            link = house['href']
+            if not link.startswith("http"):
+                link = f'http://ww.avito.ru{link}'
 
-        place_elem = house.select_one('p.styles-module-root-s4tZ2.styles-module-size_s-nEvE8.styles-module-size_s_compensated-wyNaE.styles-module-size_s-PDQal.styles-module-ellipsis-A5gkK.styles-module-ellipsis_oneLine-xwEfT.stylesMarningNormal-module-root-_xKyG.stylesMarningNormal-module-paragraph-s-HX94M.styles-module-root_top-f1wIA.styles-module-margin-top_0-j226g')
-        place = unicodedata.normalize("NFKD", place_elem.text) if place_elem else "N/A"
-        place = parse_string(place, 'place')
-        if place == None: continue
+            driver.get(link)
+            time.sleep(3)
 
-        price_elem = house.select_one('strong')
-        price = unicodedata.normalize("NFKD", price_elem.text) if price_elem else "N/A"
-        if 'месяц' in price: continue
-        price = parse_string(price, 'price')
-        if price == None: continue
+            detail_html = driver.page_source
+            detail_soup = BeautifulSoup(detail_html, "html.parser")
 
-        all_houses.append((house_id, title, place, price))
+            params = detail_soup.select('li.params-paramsList__item-_2Y2O')
+            house_data = {
+                "rooms": None,
+                "total_area": None,
+                "living_area": None,
+                "floor": None,
+                "price": None,
+                "place": None,
+            }
 
-        house_id += 1
+            for param in params:
+                param_text = param.text.split(":")
 
-    with open('houses.txt', 'a', encoding='utf-8') as file:
-        for house in all_houses:
-            file.write(f'{house[0]}\t{house[1]}\t{house[2]}\t{house[3]}\n')
-            print(f'{house[0]}\tTitle: {house[1]}\tPlace: {house[2]}\tPrice: {house[3]}\n')
+                if len(param_text) < 2:
+                    continue
+
+                label, value = param_text[0].strip(), param_text[1].strip()
+
+                if "Количество комнат" in label:
+                    house_data["rooms"] = 0 if "студия" in value.lower() else int(value.split()[0])
+                elif "Общая площадь" in label:
+                    house_data["total_area"] = float(value.split()[0].replace(',', '.'))
+                elif "Жилая площадь" in label:
+                    house_data["living_area"] = float(value.split()[0].replace(',', '.'))
+                elif "Этаж" in label:
+                    house_data["floor"] = int(value.split()[0])
+
+
+            price_elem = detail_soup.select_one('span.styles-module-size_xxxl-GRUMY')
+            place_elem = detail_soup.select('span')
+
+            if place_elem:
+                for x in place_elem:
+                    if "р-н" in x.text:
+                        place_elem = x.text.split()[1]
+
+            house_data["price"] = price_elem.text.strip().replace('\xa0', '') if price_elem else None
+            house_data["price"] = house_data["price"].replace('₽', '') if house_data["price"] else None
+            print(int(house_data["price"]))
+            if int(house_data["price"]) <= 500000 : continue
+
+            house_data["place"] = place_elem if place_elem else None
+
+
+            all_houses.append((house_data["rooms"], house_data["total_area"], house_data["living_area"], house_data["floor"], house_data["price"], house_data["place"]))
+            print(f'-- {house_id} --', link, all_houses[-1])
+            house_id += 1
+        except:
+            continue
+        #     value = param.select_one('span.params-paramsList__item-value-_2FQg').text.strip()
+
+        #     if "комнаты" in label.lower():
+        #         house_data["rooms"] = value
+        #     elif "этаж" in label.lower():
+        #         house_data["floor"] = value
+        #     elif "жилая площадь" in label.lower():
+        #         house_data["living_area"] = value
+        #     elif "площадь" in label.lower() and "жилая" not in label.lower():
+        #         house_data["area"] = value
+
+        # price = detail_soup.select_one('span.styles-module-size_xxxl-GRUMY').text.strip()
+        # place = detail_soup.select_one('span.style-item-address-georeferences-item-icons-_Zkh_').text.strip()
+
+        # all_houses.append((house_data["rooms"], house_data["floor"], house_data["living_area"], house_data["area"], place, price))
+        # print(all_houses)
+
+
+
+    # for house in houses:
+    #     title_elem = house.select_one('h3')
+    #     title = unicodedata.normalize("NFKD", title_elem.text) if title_elem else "N/A"
+    #     title = parse_string(title, 'title')
+    #     if title == None: continue
+
+    #     place_elem = house.select_one('p.styles-module-root-s4tZ2.styles-module-size_s-nEvE8.styles-module-size_s_compensated-wyNaE.styles-module-size_s-PDQal.styles-module-ellipsis-A5gkK.styles-module-ellipsis_oneLine-xwEfT.stylesMarningNormal-module-root-_xKyG.stylesMarningNormal-module-paragraph-s-HX94M.styles-module-root_top-f1wIA.styles-module-margin-top_0-j226g')
+    #     # place = unicodedata.normalize("NFKD", place_elem.text) if place_elem else "N/A"
+    #     place = unicodedata.normalize('NFD', place_elem.text) if place_elem else "N/A"
+    #     place = parse_string(place, 'place')
+    #     if place == None: continue
+
+    #     price_elem = house.select_one('strong')
+    #     price = unicodedata.normalize("NFKD", price_elem.text) if price_elem else "N/A"
+    #     if 'месяц' in price: continue
+    #     price = parse_string(price, 'price')
+    #     if price == None: continue
+
+    #     all_houses.append((title[0], title[1], title[2], place, price))
+
+    #     house_id += 1
+
+    try:
+
+        with open('houses.csv', 'a', newline='', encoding='utf-8') as file:
+            writer = csv.writer(file)
+            for house in all_houses:
+                writer.writerow(house)
+                print(f'{house[0]}\tTitle: {house[1]}\tPlace: {house[2]}\tPrice: {house[3]}\n')
+    except Exception as e:
+        print(e)
 
     return house_id
 
@@ -118,14 +206,17 @@ def parse_string(string, func):
         return [room, area, floor]
 
     elif func == 'place':
-        place = re.search(r"р-н\s+(\S+)", string)
+        place = ''.join([char for char in string if unicodedata.category(char) != 'Mn'])
+        place = re.sub(r'\s+', ' ', place).strip()
+
+        place = re.search(r"р-н\s+(\S+)", place)
         place = place.group(1) if place else None
         
         return place
 
     elif func == 'price':
         price = re.search(r"\d[\d\s]*", string)
-        price = price.group(0).replace(' ', '') if price else None
+        price = int(price.group(0).replace(' ', '')) if price else None
 
         return price
 
