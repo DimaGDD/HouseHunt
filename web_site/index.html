@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Взаимодействие с моделью</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- Шапка -->
+    <header>
+      <div class="logo">
+        <div class="logo-circle">A</div>
+        <div>Анализ Недвижимости</div>
+      </div>
+      <nav>
+        <a href="#">Главная</a>
+        <a href="#" class="active">Модель</a>
+        <a href="#">Услуги</a>
+        <a href="#">Контакты</a>
+      </nav>
+    </header>
+
+    <!-- Основной контент -->
+    <div class="model-content">
+      <h2>Работа с моделью предсказания</h2>
+      <p>Выберите параметры для предсказания стоимости квартиры:</p>
+
+      <form class="model-form">
+        <div class="form-group">
+          <label for="district">Район</label>
+          <select id="district" name="district">
+            <option value="0">Район Железнодорожный</option>
+            <option value="1">Район Кировский</option>
+            <option value="2">Район Ленинский</option>
+            <option value="3">Район Октябрьский</option>
+            <option value="4">Район Первомайский</option>
+            <option value="5">Район Пролетарский</option>
+            <option value="6">Район Советский</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="rooms">Количество комнат</label>
+          <select id="rooms" name="rooms">
+            <option value="0">Студия</option>
+            <option value="1">1 комната</option>
+            <option value="2">2 комнаты</option>
+            <option value="3">3 комнаты</option>
+            <option value="4">4 комнаты</option>
+            <option value="5">5 комнат</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="area">Площадь (м²)</label>
+          <input type="number" id="area" name="area" placeholder="Введите площадь" required />
+        </div>
+
+        <div class="form-group">
+          <label for="floor">Этаж</label>
+          <input type="number" id="floor" name="floor" placeholder="Введите этаж" required />
+        </div>
+
+        <button type="submit" class="model-btn">Предсказать стоимость</button>
+      </form>
+    </div>
+
+    <!-- Футер -->
+    <footer>
+      <p>© 2024 Анализ недвижимости. Все права защищены.</p>
+    </footer>
+
+    <script src="index.js"></script>
+  </body>
+</html>

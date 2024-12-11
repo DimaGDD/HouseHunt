@@ -1,1 +1,3 @@
-django
+flask
+flask_cors
+joblib
