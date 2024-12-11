@@ -1,7 +1,7 @@
 const form = document.querySelector('.model-form');
 const predictButton = document.querySelector('.model-btn');
 
-const API_URL = 'http://127.0.0.1:5000/api/data';
+const API_URL = 'https://househunt-e297.onrender.com/api/data';
 
 form.addEventListener('submit', async (event) => {
   event.preventDefault();
