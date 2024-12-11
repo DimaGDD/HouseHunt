@@ -145,6 +145,8 @@ button:hover {
 }
 
 .feature-item {
+  cursor: default;
+  user-select: none;
   display: inline-block;
   margin: 20px;
   padding: 30px;
