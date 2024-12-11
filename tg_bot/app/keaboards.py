@@ -1,5 +1,8 @@
-from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, ReplyKeyboardMarkup, KeyboardButton
+from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, WebAppInfo
+
 
 start_keaboard = InlineKeyboardMarkup(
-	inline_keyboard=[InlineKeyboardButton(text='Узнать цену', callback_data='get_price')]
+    inline_keyboard=[
+        [InlineKeyboardButton(text='▶️ Open WebApp', web_app=WebAppInfo(url='https://dimagdd.github.io/HouseHunt/'))]
+    ]
 )
