@@ -1,9 +1,12 @@
 const form = document.querySelector('.model-form');
 const predictButton = document.querySelector('.model-btn');
+const resultField = document.querySelector('.result-field');
 
 const API_URL = 'https://househunt-e297.onrender.com/api/data';
 
 form.addEventListener('submit', async (event) => {
+  resultField.textContent = 'Думаем...';
+
   event.preventDefault();
 
   const district = document.querySelector('#district').value;
@@ -32,12 +35,13 @@ form.addEventListener('submit', async (event) => {
     if (response.ok) {
       const result = await response.json();
 
-      alert(`Предсказанная стоимость: ${result.cost} руб.`);
+      resultField.textContent = `Предсказанная стоимость: ~${result.cost} руб.`;
     } else {
       alert('Ошибка при предсказании. Попробуйте позже.');
     }
   } catch (error) {
     console.log(error);
+    resultField.textContent = 'Произошла ошибка :(';
     alert('Не удалось связаться с сервером. Ошибку см. в консоли.');
   }
 });
