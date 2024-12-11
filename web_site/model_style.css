@@ -1,0 +1,165 @@
+/* Основные стили */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f9f9f9;
+}
+
+/* Шапка */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 50px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo-circle {
+  width: 40px;
+  height: 40px;
+  background-color: #47b384;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+nav {
+  display: flex;
+  gap: 20px;
+}
+
+nav a {
+  text-decoration: none;
+  color: #333;
+  font-size: 16px;
+}
+
+.active {
+  color: #47b384;
+  position: relative;
+}
+
+.active::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background-color: #47b384;
+}
+
+/* Основной контент на странице взаимодействия с моделью */
+.model-content {
+  padding: 50px 20px;
+  background-color: #ffffff;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  margin-top: 40px;
+  text-align: center;
+}
+
+.model-content h2 {
+  font-size: 2.5em;
+  color: #47b384;
+  margin-bottom: 20px;
+}
+
+.model-content p {
+  font-size: 1.2em;
+  color: #333;
+  margin-bottom: 30px;
+}
+
+.model-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.form-group {
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+}
+
+.form-group label {
+  font-size: 1.2em;
+  color: #333;
+}
+
+.form-group select,
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  font-size: 1em;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+.form-group select:focus,
+.form-group input:focus {
+  outline: none;
+  border-color: #47b384;
+}
+
+.model-btn {
+  background-color: #47b384;
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 1.2em;
+  transition: background-color 0.3s, transform 0.3s;
+  margin-top: 30px;
+}
+
+.model-btn:hover {
+  background-color: #388e3c;
+  transform: translateY(-3px);
+}
+
+/* Поле для вывода результата */
+.result-field {
+  width: 100%;
+  max-width: 500px;
+  margin-top: 20px;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  color: #333;
+  font-size: 1.2em;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Футер */
+footer {
+  background: #333;
+  color: #fff;
+  text-align: center;
+  padding: 20px 0;
+}
+
+footer p {
+  margin: 0;
+  font-size: 0.9em;
+}
