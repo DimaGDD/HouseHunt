@@ -6,10 +6,12 @@
 
 ## 📸 Превью
 
-- **[Главный экран](https://dimagdd.github.io/HouseHunt/index.html)**  
+- **[Главный экран](https://dimagdd.github.io/HouseHunt/index.html)**
+
   ![Главный экран](img/home.png)
 
-- **[Экран с моделью](https://dimagdd.github.io/HouseHunt/model.html)**  
+- **[Экран с моделью](https://dimagdd.github.io/HouseHunt/model.html)**
+
   ![Экран с моделью](img/model.png)
 
 - **Telegram бот**: [@Houses_Hunters_Bot](https://t.me/Houses_Hunters_Bot)
@@ -18,7 +20,7 @@
 
 ## 📂 Структура проекта
 
-1. **`main`**(https://github.com/DimaGDD/HouseHunt) - Основная ветка, где хранится рабочая версия проекта.  
+1. [**`main`**](https://github.com/DimaGDD/HouseHunt) - Основная ветка, где хранится рабочая версия проекта.  
 2. В других ветках лежат скрипты и экспериментальные функции для доработки проекта. Эти ветки могут быть не всегда стабильны.
    - [**`neuron`**](https://github.com/DimaGDD/HouseHunt/tree/neuron) - модель
    - [**`parser`**](https://github.com/DimaGDD/HouseHunt/tree/parser) - парсер
