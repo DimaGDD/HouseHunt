@@ -7,10 +7,10 @@
 ## 📸 Превью
 
 - **[Главный экран](https://dimagdd.github.io/HouseHunt/index.html)**  
-  ![Главный экран](https://via.placeholder.com/800x400?text=Main+Screen)
+  ![Главный экран](img/home.png)
 
 - **[Экран с моделью](https://dimagdd.github.io/HouseHunt/model.html)**  
-  ![Экран с моделью](https://via.placeholder.com/800x400?text=Model+Screen)
+  ![Экран с моделью](img/model.png)
 
 - **Telegram бот**: [@Houses_Hunters_Bot](https://t.me/Houses_Hunters_Bot)
 
