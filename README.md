@@ -16,6 +16,8 @@
 
 - **Telegram бот**: [@Houses_Hunters_Bot](https://t.me/Houses_Hunters_Bot)
 
+  ![Телеграм бот](img/tg_bot.png)
+
 ---
 
 ## 📂 Структура проекта
