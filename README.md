@@ -20,10 +20,10 @@
 
 1. **`main`**(https://github.com/DimaGDD/HouseHunt) - Основная ветка, где хранится рабочая версия проекта.  
 2. В других ветках лежат скрипты и экспериментальные функции для доработки проекта. Эти ветки могут быть не всегда стабильны.
-   - **`neuron`**(https://github.com/DimaGDD/HouseHunt/tree/neuron) - модель
-   - **`parser`**(https://github.com/DimaGDD/HouseHunt/tree/parser) - парсер
-   - **`tg_bot`**(https://github.com/DimaGDD/HouseHunt/tree/tg_bot) - телеграм бот
-   - **`web_site`**(https://github.com/DimaGDD/HouseHunt/tree/web_site) - сайт
+   - [**`neuron`**](https://github.com/DimaGDD/HouseHunt/tree/neuron) - модель
+   - [**`parser`**](https://github.com/DimaGDD/HouseHunt/tree/parser) - парсер
+   - [**`tg_bot`**](https://github.com/DimaGDD/HouseHunt/tree/tg_bot) - телеграм бот
+   - [**`web_site`**](https://github.com/DimaGDD/HouseHunt/tree/web_site) - сайт
 4. Дополнительная информация о каждой ветке находится в её собственном `README.md`.
 
 ---
